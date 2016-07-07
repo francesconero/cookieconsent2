@@ -251,7 +251,8 @@
         '</div>'
       ],
       dismissOnScroll: false, // dismiss when the user scroll down
-      dismissOnScrollRange: 50
+      dismissOnScrollRange: 50,
+      dismissOnNavigation: false // dismiss if the user navigates to same domain
     },
     
     onScrollY: 0,
@@ -274,6 +275,21 @@
           cookieconsent.onScrollY = window.pageYOffset;
           window.addEventListener('scroll', cookieconsent.onScroll);
         });
+      }
+
+      if(this.options.dismissOnNavigation) {
+        var links = document.getElementsByTagName('a');
+        for(var i = 0, len = links.length; i < len; i++) {
+          links[i].onclick = function() {
+            cookieconsent.dismiss(null);
+          }
+        }
+        var forms = document.getElementsByTagName('form');
+        for(var i = 0, len = links.length; i < len; i++) {
+          forms[i].onsubmit = function() {
+            cookieconsent.dismiss(null);
+          }
+        }
       }
     },
 
